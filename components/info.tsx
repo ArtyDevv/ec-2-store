@@ -36,16 +36,21 @@ const Info: React.FC<InfoProps> = ({ data }) => {
 
     messageW.addItemToWapp(data);
   };
-  const [selectedSize, setSelectedSize] = useState<ProductSizes | null>(null);
-  const [selectedColor, setSelectedColor] = useState<string>("");
-
+  const [selectedSize, setSelectedSize] = useState<string>(data.sizes[0].size.name);
+  const [selectedColor, setSelectedColor] = useState<string>(data.colors[0].color.name);
+  
   const setColor = (color: string): void => {
     setSelectedColor(color);
-    console.log(cart.items)
+    cart.setColor(data.id, color)
   };
-  const setSize = (size: ProductSizes | null): void => {
+  const setSize = (size: string): void => {
+    cart.setBoughtSize(data.id, size)
     setSelectedSize(size);
   };
+
+  cart.setColor(data.id, data.colors[0].color.name)
+  cart.setBoughtSize(data.id, data.sizes[0].size.name)
+
 
   return (
     <div className="bg-white shadow-md p-4 sm:p-6 md:p-8 lg:p-10 rounded-lg">
@@ -82,12 +87,10 @@ const Info: React.FC<InfoProps> = ({ data }) => {
         <div className="flex items-center gap-2">
       <h3 className="font-semibold text-black">Sizes:</h3>
       <select
-        value={selectedSize?.size?.value || ''}
-        onChange={(e) => {
-          const selectedSizeValue = e.target.value;
-          const newSize = data.sizes.find((size) => size.size?.value === selectedSizeValue) || null;
-          setSize(newSize);
-        }}
+        value={selectedSize || ''}
+
+          onChange={(e) => setSize(e.currentTarget.value)}
+        
         className="rounded-full border-spacing-1 border bg-white"
       >
         <option value="" disabled>

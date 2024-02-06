@@ -17,7 +17,9 @@ interface CartStore {
   decreaseQuantity: (id: string) => void;
   getQuantity: (id: string) => number;
   setColor: (id: string, color: string) => void;
+  getColor: (id: string) => string;
   setBoughtSize: (id: string, size: string) => void;
+  getSize: (id: string) => string;
   removeAll: () => void;
 }
 
@@ -71,7 +73,21 @@ const useCart = create(
       const updatedItems = get().items.map((item) =>
         item.id === id ? { ...item, boughtColor: color } : item
       );
+      console.log(id, color)
       set({ items: updatedItems });
+    },
+    getColor: (id: string) => {
+      const item = get().items.find((item) =>
+        item.id === id
+      );
+      return item!.boughtColor
+    },
+    getSize: (id: string) => {
+      const item = get().items.find((item) =>
+        item.id === id
+      );
+      console.log(item)
+      return item!.boughtSize
     },
     setBoughtSize: (id: string, size: string) => {
       const updatedItems = get().items.map((item) =>

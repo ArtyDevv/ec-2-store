@@ -17,7 +17,7 @@ const Billboard: React.FC<BillboardProps>=({
           }}
           
           >
-            {data.label}
+            {data?.label}
           </div>
         </div>
       </div>
